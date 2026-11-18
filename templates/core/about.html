@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About MAAM | Beyond the Silence{% endblock %}
+{% block meta_description %}Learn why MAAM exists, the meaning of its Shona name, its mission and values, and how it intends to support mental health awareness and advocacy.{% endblock %}
+
+{% block content %}
+<section class="hero about-hero">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <p class="eyebrow">Youth mental health awareness &amp; advocacy</p>
+            <h1>Beyond the Silence begins with listening.</h1>
+            <p class="hero-lede">MAAM is a youth-led mental health awareness and advocacy initiative, beginning with young people in urban Zimbabwe and making room for the diversity of African experiences.</p>
+            <div class="about-identity">
+                <strong lang="sn">Mwana Asingachemi Anofira Mumbereko</strong>
+                <span>“The baby that does not cry will die in the cradle.”</span>
+            </div>
+            <div class="button-row">
+                <a class="button" href="{% url 'learn' %}">Explore mental health education</a>
+                <a class="button button--outline" href="{% url 'support' %}">Find support organisations</a>
+            </div>
+        </div>
+        <figure class="about-hero__figure">
+            <img
+                class="about-hero__image"
+                src="{% static 'images/about-highfield-harare-dawn.jpg' %}"
+                alt="A view of Highfield, Harare, Zimbabwe, at dawn."
+                width="1600"
+                height="1067"
+                fetchpriority="high">
+            <figcaption class="about-hero__caption">Highfield, Harare, Zimbabwe. Photo: Achitate, “Dawn in Highfield Harare 2”, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license noopener noreferrer">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Dawn_in_Highfield_Harare_2.jpg" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a> (resized).</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="section about-problem" aria-labelledby="about-problem-title">
+    <div class="container split-layout">
+        <div>
+            <p class="eyebrow">Why MAAM exists</p>
+            <h2 id="about-problem-title">People deserve to be heard, understood and connected to support.</h2>
+        </div>
+        <div>
+            <p>Mental health challenges can be harder to navigate when people encounter:</p>
+            <ul class="about-barriers">
+                <li>Stigma and discrimination.</li>
+                <li>Misconceptions about mental health.</li>
+                <li>Fear of judgement or unwanted exposure.</li>
+                <li>Limited awareness of where appropriate support may be found.</li>
+                <li>Difficulty having open conversations about emotional wellbeing.</li>
+            </ul>
+            <div class="callout">
+                <p>Speaking about a need can matter, but the responsibility is not on a person to find perfect words. Communities share responsibility for listening with compassion and creating safe, respectful spaces.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section--mint" aria-labelledby="about-name-title">
+    <div class="container about-name">
+        <div class="about-name__meaning">
+            <p class="eyebrow">The meaning behind our name</p>
+            <h2 id="about-name-title" lang="sn">Mwana Asingachemi Anofira Mumbereko</h2>
+            <p class="about-name__translation">“The baby that does not cry will die in the cradle.”</p>
+        </div>
+        <div class="prose">
+            <p>This Shona proverb speaks to how expressing a need can help someone be noticed and find support. For MAAM, it also carries a responsibility for the people around them: to listen, respond with compassion and help create spaces where it feels safer to speak.</p>
+            <p>The proverb is not a reason to blame anyone for distress, silence or difficulty seeking help. Each person’s circumstances are different, and support should not depend on someone having the “right” words.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section section--cream" aria-labelledby="about-direction-title">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Our direction</p>
+                <h2 id="about-direction-title">Awareness with compassion. Support with dignity.</h2>
+            </div>
+        </div>
+        <div class="about-direction-grid">
+            <article class="about-direction-card">
+                <p class="eyebrow">Our mission</p>
+                <h3>Make understanding and support easier to reach.</h3>
+                <p>Promote mental health awareness, challenge stigma, encourage open and compassionate conversations, and connect people with credible information and appropriate support.</p>
+            </article>
+            <article class="about-direction-card about-direction-card--vision">
+                <p class="eyebrow">Our vision</p>
+                <h3>Communities where no one has to feel ashamed to seek support.</h3>
+                <p>Communities where mental health is understood, conversations are welcomed, people are treated with dignity, and seeking support is not a source of shame.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section" aria-labelledby="about-values-title">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">What guides us</p>
+                <h2 id="about-values-title">Values we aim to put into practice.</h2>
+            </div>
+            <p>These commitments shape how MAAM communicates, shares information and invites participation.</p>
+        </div>
+        <div class="card-grid about-values-grid">
+            <article class="feature-card about-value">
+                <span class="card-index" aria-hidden="true">01</span>
+                <h3>Compassion</h3>
+                <p>Listen without judgement and respond with care.</p>
+            </article>
+            <article class="feature-card about-value">
+                <span class="card-index" aria-hidden="true">02</span>
+                <h3>Dignity</h3>
+                <p>Respect each person and their individual experiences.</p>
+            </article>
+            <article class="feature-card about-value">
+                <span class="card-index" aria-hidden="true">03</span>
+                <h3>Inclusion</h3>
+                <p>Make mental health conversations welcoming to different people and perspectives.</p>
+            </article>
+            <article class="feature-card about-value">
+                <span class="card-index" aria-hidden="true">04</span>
+                <h3>Awareness</h3>
+                <p>Promote credible, accessible information about mental health.</p>
+            </article>
+            <article class="feature-card about-value">
+                <span class="card-index" aria-hidden="true">05</span>
+                <h3>Empowerment</h3>
+                <p>Encourage informed choices and help-seeking without pressure.</p>
+            </article>
+            <article class="feature-card about-value">
+                <span class="card-index" aria-hidden="true">06</span>
+                <h3>Accountability</h3>
+                <p>Be honest about MAAM’s role, limits and what has or has not been done.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section section--cream" aria-labelledby="about-objectives-title">
+    <div class="container about-objectives">
+        <div>
+            <p class="eyebrow">Our objectives</p>
+            <h2 id="about-objectives-title">Practical steps toward a more supportive culture.</h2>
+            <p>MAAM’s objectives are to:</p>
+        </div>
+        <ul class="about-objectives-list">
+            <li>Increase mental health literacy and awareness.</li>
+            <li>Challenge stigma and harmful misconceptions.</li>
+            <li>Encourage supportive conversations among young people and communities.</li>
+            <li>Share credible educational resources.</li>
+            <li>Connect visitors with legitimate mental health organisations and services.</li>
+            <li>Promote responsible storytelling, consent and privacy.</li>
+            <li>Encourage community participation and advocacy.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="section section--mint" aria-labelledby="about-approach-title">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">How MAAM intends to work</p>
+                <h2 id="about-approach-title">A connected approach, built around people.</h2>
+            </div>
+            <p>These are the initiative’s intended workstreams, not claims that programmes or partnerships have already taken place.</p>
+        </div>
+        <div class="card-grid about-work-grid">
+            <article class="feature-card about-work-card">
+                <span class="card-index" aria-hidden="true">01</span>
+                <h3>Education and awareness</h3>
+                <p>Make clear, accessible mental health information easier to understand and share.</p>
+            </article>
+            <article class="feature-card about-work-card">
+                <span class="card-index" aria-hidden="true">02</span>
+                <h3>Community voices</h3>
+                <p>Make room for experiences and stories shared voluntarily, with consent and privacy treated with care.</p>
+            </article>
+            <article class="feature-card about-work-card">
+                <span class="card-index" aria-hidden="true">03</span>
+                <h3>Campaigns and advocacy</h3>
+                <p>Challenge stigma and harmful misconceptions, and encourage more supportive community responses.</p>
+            </article>
+            <article class="feature-card about-work-card">
+                <span class="card-index" aria-hidden="true">04</span>
+                <h3>Credible resources</h3>
+                <p>Share useful materials with clear sources and respect for their creators and intended use.</p>
+            </article>
+            <article class="feature-card about-work-card">
+                <span class="card-index" aria-hidden="true">05</span>
+                <h3>Support directory</h3>
+                <p>Help visitors identify organisations and services, while encouraging them to confirm current availability directly.</p>
+            </article>
+            <article class="feature-card about-work-card">
+                <span class="card-index" aria-hidden="true">06</span>
+                <h3>Participation and partnerships</h3>
+                <p>Invite community participation and approach potential partnerships responsibly. No partnership is claimed here.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section about-accountability" aria-labelledby="about-accountability-title">
+    <div class="container about-accountability__inner">
+        <div>
+            <p class="eyebrow">Leadership and boundaries</p>
+            <h2 id="about-accountability-title">Clear about who we are—and what we are not.</h2>
+        </div>
+        <div class="about-accountability__copy">
+            <p><strong>Public-facing project role: MAAM Project Lead.</strong> No personal name is published.</p>
+            <p>MAAM is an awareness and advocacy initiative, not a counselling centre, mental health clinic or healthcare provider. It does not provide diagnosis, therapy, medical treatment or emergency response.</p>
+            <p>MAAM is still being developed. This page describes its purpose and intended work, not completed programmes, impact figures or established partnerships. No unconfirmed board, clinical team or registration status is claimed.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section section--cream about-next-steps" aria-labelledby="about-next-steps-title">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Take the next step</p>
+                <h2 id="about-next-steps-title">Learn, find support, or take part.</h2>
+            </div>
+        </div>
+        <div class="button-row">
+            <a class="button" href="{% url 'learn' %}">Explore education</a>
+            <a class="button button--outline" href="{% url 'support' %}">Visit the support directory</a>
+            <a class="button button--outline" href="{% url 'get-involved' %}">Get involved</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

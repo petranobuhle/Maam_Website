@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="{% block html_lang %}en{% endblock %}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MAAM | Beyond the Silence{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}MAAM is a youth-led mental health awareness and advocacy initiative, starting with young people in urban Zimbabwe.{% endblock %}">
+    <link rel="icon" href="{% static 'favicon.svg' %}" type="image/svg+xml">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}?v=12">
+    <script src="{% static 'js/site.js' %}?v=1" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header" lang="en">
+        <nav class="navbar container" aria-label="Main navigation">
+            <a class="brand" href="{% url 'home' %}">
+                <span class="brand-mark" aria-hidden="true">M</span>
+                <span class="brand-copy">
+                    <span class="brand-name">MAAM</span>
+                    <span class="brand-subtitle">Beyond the Silence</span>
+                </span>
+            </a>
+            <button class="menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false" data-menu-toggle>
+                <span aria-hidden="true">☰</span> Menu
+            </button>
+            <div class="nav-links" id="primary-navigation">
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'learn' %}">Understand</a>
+                <a href="{% url 'watch-listen' %}">Watch &amp; Listen</a>
+                <a href="{% url 'stories' %}">Stories</a>
+                <a href="{% url 'resources' %}">Resources</a>
+                <a href="{% url 'support' %}">Support</a>
+                <a class="nav-cta" href="{% url 'get-involved' %}">Get involved</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content" lang="{% block content_lang %}en{% endblock %}">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer" lang="en">
+        <div class="container footer-grid">
+            <div>
+                <h2>MAAM</h2>
+                <p class="footer-note">Mwana Asingachemi Anofira Mumbereko<br>Beyond the Silence</p>
+                <p class="footer-note">A youth-led awareness and advocacy initiative, beginning in urban Zimbabwe and connected to a wider African vision.</p>
+            </div>
+            <div>
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="{% url 'learn' %}">Understand mental health</a></li>
+                    <li><a href="{% url 'watch-listen' %}">Watch &amp; listen</a></li>
+                    <li><a href="{% url 'stories' %}">Stories</a></li>
+                    <li><a href="{% url 'resources' %}">Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>About</h3>
+                <ul>
+                    <li><a href="{% url 'about' %}">About MAAM</a></li>
+                    <li><a href="{% url 'get-involved' %}">Get involved</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Our commitment</h3>
+                <ul>
+                    <li><a href="{% url 'privacy' %}">Privacy</a></li>
+                    <li><a href="{% url 'safeguarding' %}">Safeguarding</a></li>
+                    <li><a href="{% url 'insights' %}">Research insights</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>MAAM shares awareness and educational information. It is not a diagnosis, counselling, treatment or emergency service.</p>
+            <p>&copy; {% now "Y" %} MAAM</p>
+        </div>
+    </footer>
+</body>
+</html>

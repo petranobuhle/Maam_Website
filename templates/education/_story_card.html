@@ -1,0 +1,31 @@
+<article class="story-card story-card--documentary" aria-labelledby="story-{{ story.slug }}-title">
+    {% if story.image and story.is_hosted %}
+    <figure class="story-card__media">
+        <img src="{{ story.image.url }}" alt="{{ story.image_alt }}" loading="lazy">
+        <figcaption>{{ story.image_credit }}</figcaption>
+    </figure>
+    {% endif %}
+    <div class="story-card__body">
+        <p class="story-meta">
+            <span class="badge">{{ story.country.name }}</span>
+            {% if story.story_type == "external" %}
+            <span class="badge badge--pending">On the original website</span>
+            {% elif story.story_type == "republished" %}
+            <span class="badge badge--licence">Republished with credit · {{ story.licence_name }}</span>
+            {% else %}
+            <span class="badge">Shared with consent</span>
+            {% endif %}
+        </p>
+        <h3 id="story-{{ story.slug }}-title">{{ story.title }}</h3>
+        <p class="story-byline">
+            {% if story.is_anonymous and story.story_type == "community" %}Shared anonymously{% elif story.author_display %}By {{ story.author_display }}{% endif %}{% if story.source_name %} · {{ story.source_name }}{% endif %}{% if story.published_on %}, {{ story.published_on|date:"F Y" }}{% endif %}
+        </p>
+        <p>{{ story.excerpt }}</p>
+        {% if story.content_note %}<p class="story-content-note"><strong>Content note:</strong> {{ story.content_note }}</p>{% endif %}
+        {% if story.is_hosted %}
+        <a class="text-link" href="{% url 'story-detail' story.slug %}">Read the full story <span aria-hidden="true">→</span><span class="visually-hidden">: {{ story.title }}</span></a>
+        {% else %}
+        <a class="text-link" href="{{ story.source_url }}" target="_blank" rel="noopener noreferrer">Read on {{ story.source_name }} <span aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+        {% endif %}
+    </div>
+</article>

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block html_lang %}{{ language_code }}{% endblock %}
+{% block content_lang %}{{ language_code }}{% endblock %}
+{% block title %}{{ translation.title|default:article.title }} | MAAM{% endblock %}
+{% block meta_description %}{{ translation.summary|default:article.summary|truncatechars:155 }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        {% include 'education/_language_switcher.html' %}
+        <p class="eyebrow">{{ ui.detail_eyebrow }}</p>
+        <h1>{{ translation.title|default:article.title }}</h1>
+        <div class="article-meta">
+            {% if article.is_demo %}<span class="badge badge--demo">{{ ui.demo_badge }}</span>{% endif %}
+            {% if translation %}
+                {% if translation.review_status == "draft" %}
+                <span class="badge badge--demo">{{ ui.draft_label }}</span>
+                {% else %}
+                <span>{{ ui.translated_label }}</span>
+                {% endif %}
+            {% endif %}
+        </div>
+        {% if translation.review_status == "draft" %}<p class="education-translation-notice">{{ ui.draft_notice }}</p>{% endif %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="container narrow">
+        <article class="prose">
+            {% if article.topics.all %}
+            <div class="learning-topic-tags" aria-label="{{ ui.topic_nav_label }}">
+                {% for topic in article.topics.all %}
+                <span class="learning-topic-tag">{% if language_code == "sn" %}{{ topic.shona_name|default:topic.name }}{% else %}{{ topic.name }}{% endif %}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if article.cover_image %}
+            <img src="{{ article.cover_image.url }}" alt="{{ article.cover_image_alt }}" loading="lazy">
+            {% elif article.cover_image_url %}
+            <img src="{{ article.cover_image_url }}" alt="{{ article.cover_image_alt }}" loading="lazy" referrerpolicy="no-referrer">
+            {% endif %}
+            {% if translation.summary or article.summary %}
+            <p><strong>{{ translation.summary|default:article.summary }}</strong></p>
+            {% endif %}
+            <div class="article-body">
+                {{ translation.content|default:article.content|linebreaks }}
+            </div>
+            {% if article.source_url %}
+            <p><strong>{{ ui.source_label }}</strong> <a href="{{ article.source_url }}" lang="en" target="_blank" rel="noopener noreferrer">{{ article.source_name|default:article.source_url }}</a></p>
+            {% elif article.is_demo %}
+            <div class="notice notice--important">{{ ui.demo_notice }}</div>
+            {% endif %}
+            <p class="notice">{{ ui.education_notice }}</p>
+        </article>
+        <div class="button-row">
+            <a class="button button--outline" href="{% url 'learn' %}?lang={{ language_code }}">{{ ui.back_to_learning }}</a>
+            <a class="button" href="{% url 'support' %}">{{ ui.support_button }}</a>
+        </div>
+        {% if related_articles %}
+        <div class="section-heading" style="margin-top: 3rem;">
+            <div><p class="eyebrow">{{ ui.related_eyebrow }}</p><h2>{{ ui.related_heading }}</h2></div>
+        </div>
+        <div class="card-grid">
+            {% for related in related_articles %}
+            <article class="feature-card">
+                {% if related.is_demo %}<span class="badge badge--demo">{{ ui.demo_badge }}</span>{% endif %}
+                <h3>{% if language_code == "sn" and related.display_translation %}{{ related.display_translation.title }}{% else %}{{ related.title }}{% endif %}</h3>
+                <p>{% if language_code == "sn" and related.display_translation %}{{ related.display_translation.summary|default:related.summary }}{% else %}{{ related.summary }}{% endif %}</p>
+                <a class="text-link" href="{% url 'article-detail' related.slug %}?lang={{ language_code }}">{{ ui.read_article }} <span aria-hidden="true">→</span></a>
+            </article>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

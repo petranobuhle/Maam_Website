@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block html_lang %}{{ language_code }}{% endblock %}
+{% block content_lang %}{{ language_code }}{% endblock %}
+{% block title %}{{ ui.not_found_title }} | MAAM{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container narrow">
+        {% include 'education/_language_switcher.html' %}
+        <p class="eyebrow">{{ ui.detail_eyebrow }}</p>
+        <h1>{{ ui.not_found_title }}</h1>
+    </div>
+</section>
+
+<section class="section container narrow">
+    <div class="content-card">
+        <p>{{ ui.not_found_body }}</p>
+        <a class="button" href="{% url 'learn' %}?lang={{ language_code }}">{{ ui.not_found_link }}</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Get involved | MAAM{% endblock %}
+{% block meta_description %}Find ways to contribute to MAAM's youth mental health awareness and advocacy work.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <p class="eyebrow">Participation</p>
+        <h1>Make space for a better conversation.</h1>
+        <p>Volunteer or propose a partnership in awareness and education. These forms are not for personal health support or urgent requests.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        {% if messages %}
+        <div class="message-list" role="status">
+            {% for message in messages %}<div class="success-box">{{ message }}</div>{% endfor %}
+        </div>
+        {% endif %}
+        <div class="notice notice--important">
+            <p>We use the details you submit to review your volunteer interest or partnership inquiry and, with your consent, contact you about it. A submission does not guarantee a response, volunteer role or partnership.</p>
+            <p>Submitted details are stored in the website database and may be viewed through the login-protected administration by accounts with appropriate permissions. Share only what is needed; do not include private health details or information about another person.</p>
+            <p><a href="{% url 'privacy' %}">Read the Privacy Notice</a> for more information.</p>
+        </div>
+        <div class="card-grid card-grid--two">
+            <section class="content-card form-card">
+                <p class="eyebrow">Volunteer</p>
+                <h2>Offer your time</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="volunteer_submit" value="1">
+                    {{ volunteer_form.as_p }}
+                    <button class="button" type="submit">Send volunteer interest</button>
+                </form>
+            </section>
+            <section class="content-card form-card">
+                <p class="eyebrow">Partnership</p>
+                <h2>Start a conversation</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="partnership_submit" value="1">
+                    {{ partnership_form.as_p }}
+                    <button class="button" type="submit">Send partnership inquiry</button>
+                </form>
+            </section>
+        </div>
+        <p class="notice">Only share the information needed to respond to your inquiry. Do not include private health details or information about another person.</p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Watch &amp; listen | MAAM{% endblock %}
+{% block meta_description %}Watch educational mental-health videos from WHO and UNICEF, with source links and clear notes about captions or related written guidance.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <p class="eyebrow">Media room</p>
+        <h1>Watch, listen and reflect.</h1>
+        <p>Explore educational videos from trusted publishers, with clear source links. Audio appears only when an approved recording is available.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-heading">
+            <div><p class="eyebrow">Films &amp; conversations</p><h2>Stories in sound and moving image.</h2></div>
+        </div>
+        {% if media_items %}
+        <div class="card-grid">
+            {% for item in media_items %}
+            <article class="media-card">
+                {% if item.youtube_embed_url %}
+                <div class="media-card__embed">
+                    <iframe
+                        src="{{ item.youtube_embed_url }}"
+                        title="{{ item.title }} — video player"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allow="encrypted-media; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+                {% elif item.thumbnail %}
+                <img class="media-card__art" src="{{ item.thumbnail.url }}" alt="{{ item.thumbnail_alt }}" loading="lazy">
+                {% elif item.thumbnail_url %}
+                <img class="media-card__art" src="{{ item.thumbnail_url }}" alt="{{ item.thumbnail_alt }}" loading="lazy" referrerpolicy="no-referrer">
+                {% else %}
+                <div class="media-card__art" aria-hidden="true"><span class="media-card__play">▶</span></div>
+                {% endif %}
+                <div class="media-card__body">
+                    <span class="badge">{{ item.get_media_type_display }}</span>
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.summary }}</p>
+                    <p>Source: <a href="{{ item.source_url }}" target="_blank" rel="noopener noreferrer">{{ item.source_name }}</a></p>
+                    <a class="button button--outline" href="{{ item.media_url }}" target="_blank" rel="noopener noreferrer">Open original on YouTube</a>
+                    {% if item.captions_url %}
+                    <p><a href="{{ item.captions_url }}" target="_blank" rel="noopener noreferrer">Open video with captions</a></p>
+                    {% elif not item.transcript %}
+                    <p class="media-caption-note">A caption track was not listed when this video was checked. Read the linked source for related written information.</p>
+                    {% endif %}
+                    {% if item.transcript %}
+                    <details><summary>Read transcript</summary><div class="prose">{{ item.transcript|linebreaks }}</div></details>
+                    {% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <h3>No videos are available yet</h3>
+            <p>Only confirmed items from identifiable sources are shown here. This space will not use fabricated interviews or people.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="section section--cream">
+    <div class="container">
+        <div class="section-heading">
+            <div><p class="eyebrow">Audio</p><h2>Listen and learn.</h2></div>
+            <a class="text-link" href="{% url 'listen' %}">Audio library <span aria-hidden="true">→</span></a>
+        </div>
+        {% if audio_resources %}
+        <div class="card-grid card-grid--two">
+            {% for resource in audio_resources %}
+            <article class="feature-card">
+                <span class="badge">{{ resource.language.name }}</span>
+                <h3>{{ resource.title }}</h3>
+                <p>{{ resource.article.title }}</p>
+                <audio class="audio-player" controls preload="none"><source src="{{ resource.audio_url }}">Audio is not supported by this browser.</audio>
+                {% if resource.transcript %}<details><summary>Read transcript</summary>{{ resource.transcript|linebreaks }}</details>{% endif %}
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <h3>No approved audio is available yet</h3>
+            <p>Sample records without actual audio files are not presented as playable content.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

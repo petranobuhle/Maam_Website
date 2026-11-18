@@ -1,0 +1,28 @@
+# Secrets - never publish
+.env
+.env.*
+!.env.example
+
+# Local Python environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local databases and any copies (may contain form submissions)
+db.sqlite3
+*.sqlite3
+*.sqlite3-journal
+*.db
+
+# Database backups made with dumpdata (contain personal data)
+maam-backup-*.json
+*.dump
+
+# Build output and uploads
+staticfiles/
+media/
+
+# Logs and editor files
+*.log
+.vscode/
+.idea/

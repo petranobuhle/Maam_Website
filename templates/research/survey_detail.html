@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ survey.title }} | MAAM{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <p class="eyebrow">Voluntary survey</p>
+        <h1>{{ survey.title }}</h1>
+        <p>{{ survey.description }}</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container narrow">
+        <div class="notice notice--important">
+            This survey is for adults aged 18–29. It is voluntary and is not a diagnosis tool. Please do not include names, contact details or other identifying information in written answers. Written answers are not published publicly, but may be reviewed by authorised staff.
+        </div>
+        {% if errors %}
+        <div class="error-box" role="alert">
+            <ul>{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        </div>
+        {% endif %}
+        <form class="content-card" method="post">
+            {% csrf_token %}
+            <div class="field-group">
+                <label for="age_group">Your age group</label>
+                <select id="age_group" name="age_group" required>
+                    <option value="">Choose an age group</option>
+                    <option value="18-21">18–21</option>
+                    <option value="22-25">22–25</option>
+                    <option value="26-29">26–29</option>
+                </select>
+            </div>
+
+            {% for question in questions %}
+            <fieldset class="field-group">
+                <legend><strong>{{ question.question_text }}</strong>{% if question.is_required %} <span aria-label="required">*</span>{% else %} <span>(optional)</span>{% endif %}</legend>
+                {% if question.help_text %}<p>{{ question.help_text }}</p>{% endif %}
+                {% if question.question_type == 'text' %}
+                <textarea id="question_{{ question.id }}" name="question_{{ question.id }}" rows="4" maxlength="2000" {% if question.is_required %}required{% endif %}></textarea>
+                {% elif question.question_type == 'multiple_choice' %}
+                    {% for option in question.choices %}
+                    <label class="checkbox-row">
+                        <input type="checkbox" name="question_{{ question.id }}" value="{{ option }}">
+                        <span>{{ option }}</span>
+                    </label>
+                    {% endfor %}
+                {% else %}
+                <select id="question_{{ question.id }}" name="question_{{ question.id }}" {% if question.is_required %}required{% endif %}>
+                    <option value="">Select an answer</option>
+                    {% for option in question.choices %}<option value="{{ option }}">{{ option }}</option>{% endfor %}
+                </select>
+                {% endif %}
+            </fieldset>
+            {% endfor %}
+
+            <div class="checkbox-row">
+                <input id="consent" type="checkbox" name="consent" value="on" required>
+                <label for="consent">I have read this information, understand that participation is voluntary, and consent to take part.</label>
+            </div>
+            <button class="button" type="submit">Submit response</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

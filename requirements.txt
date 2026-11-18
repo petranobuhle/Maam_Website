@@ -1,0 +1,12 @@
+# MAAM - Python dependencies (UTF-8). Install with: pip install -r requirements.txt
+asgiref==3.13.0
+dj-database-url==3.1.2
+Django==5.2.19
+psycopg[binary]==3.3.8
+python-dotenv==1.2.4
+sqlparse==0.6.1
+tzdata==2026.6
+whitenoise==6.12.0
+
+# Production web server used on Render (Linux only; not needed for local development on Windows).
+gunicorn==26.2.0; sys_platform != "win32"

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Response received | MAAM{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <p class="eyebrow">Thank you</p>
+        <h1>Your response was received.</h1>
+        <p>Responses are handled as described before submission. Public reporting uses aggregate results only, with small groups suppressed.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container narrow">
+        <div class="notice notice--important">
+            If you shared something that now feels uncomfortable, MAAM is not an emergency service and this confirmation page is not monitored for follow-up. Please use a trusted professional or local support pathway.
+        </div>
+        <a class="button" href="{% url 'insights' %}">Return to insights</a>
+    </div>
+</section>
+{% endblock %}

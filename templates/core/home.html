@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MAAM | Beyond the Silence{% endblock %}
+{% block meta_description %}Learn about MAAM, explore accessible mental health education, find verified Zimbabwean support organisations and discover ways to get involved.{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <p class="eyebrow">Youth mental health awareness &amp; advocacy</p>
+            <h1>Every young person deserves to be <em>heard.</em></h1>
+            <p class="hero-lede">MAAM is a youth-led mental health awareness and advocacy initiative. We share accessible information and encourage compassionate conversations—while reminding communities to listen and connect people with appropriate support.</p>
+            <div class="button-row">
+                <a class="button" href="{% url 'learn' %}">Explore mental health education</a>
+                <a class="button button--outline" href="{% url 'support' %}">Find support</a>
+                <a class="button button--outline" href="{% url 'get-involved' %}">Get involved</a>
+            </div>
+        </div>
+        <figure class="hero-art">
+            <img
+                class="hero-art__image"
+                src="{% static 'images/homepage-maam-hero.jpg' %}"
+                alt="A caregiver listens closely as a child in a cradle reaches toward her, showing the child being heard and supported."
+                width="1402"
+                height="1122">
+            <figcaption class="hero-art__caption">Listening is a shared responsibility.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="section section--mint" aria-labelledby="home-proverb-title">
+    <div class="container split-layout">
+        <div>
+            <p class="eyebrow">The meaning behind our name</p>
+            <h2 id="home-proverb-title">Speaking up matters. So does making space to listen.</h2>
+        </div>
+        <div>
+            <blockquote class="proverb">
+                <strong lang="sn">Mwana Asingachemi Anofira Mumbereko</strong>
+                “The baby that does not cry will die in the cradle.”
+            </blockquote>
+            <p>This Shona proverb can remind us that expressing a need may help someone be noticed. It is not a reason to blame anyone who finds speaking difficult. Communities share responsibility for listening with compassion and helping people find credible information and appropriate support.</p>
+            <a class="text-link" href="{% url 'about' %}">Learn about MAAM <span aria-hidden="true">→</span></a>
+        </div>
+    </div>
+</section>
+
+{% if articles %}
+<section class="section section--cream" aria-labelledby="home-learning-title">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Mental health education</p>
+                <h2 id="home-learning-title">Clear information, without judgment.</h2>
+            </div>
+            <a class="text-link" href="{% url 'learn' %}">Explore all learning topics <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="card-grid">
+            {% for article in articles %}
+            <article class="feature-card">
+                <span class="card-index" aria-hidden="true">0{{ forloop.counter }}</span>
+                <h3>{{ article.title }}</h3>
+                <p>{{ article.summary|default:article.content|truncatechars:145 }}</p>
+                <a class="text-link" href="{% url 'article-detail' article.slug %}">Read article <span aria-hidden="true">→</span></a>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if has_verified_support %}
+<section class="section" aria-labelledby="home-support-title">
+    <div class="container home-support-layout">
+        <div>
+            <p class="eyebrow">Support directory</p>
+            <h2 id="home-support-title">Find a support organisation.</h2>
+            <p>Explore verified Zimbabwean organisations and contact them directly to confirm current services and availability.</p>
+            <ul class="home-support-list">
+                {% for service in support_services %}
+                <li>
+                    <strong>{{ service.name }}</strong> — {{ service.organisation.name }}{% if service.city %}, {{ service.city }}{% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+            <a class="button" href="{% url 'support' %}">Visit the Support Directory</a>
+        </div>
+        <aside class="content-card home-urgent-note">
+            <p class="eyebrow">A note on urgent needs</p>
+            <h3>MAAM is not an emergency service.</h3>
+            <p>If there is immediate danger, contact appropriate emergency or professional support in your area. This website does not monitor submissions for urgent requests.</p>
+            <a class="text-link" href="{% url 'safeguarding' %}">Read the safeguarding note <span aria-hidden="true">→</span></a>
+        </aside>
+    </div>
+</section>
+{% endif %}
+
+<section class="section section--dark home-invitation" aria-labelledby="home-invitation-title">
+    <div class="container home-invitation__inner">
+        <div>
+            <p class="eyebrow">Get involved</p>
+            <h2 id="home-invitation-title">Help build a culture of listening and support.</h2>
+            <p>Explore ways to participate in MAAM’s awareness and advocacy work. You do not need to share personal health information to get involved.</p>
+        </div>
+        <a class="button button--light" href="{% url 'get-involved' %}">Explore ways to get involved</a>
+    </div>
+</section>
+{% endblock %}

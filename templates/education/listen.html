@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Listen | MAAM{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <p class="eyebrow">Audio learning</p>
+        <h1>Listen when you're ready.</h1>
+        <p>Audio learning will be published with a transcript or accessible alternative wherever available.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        {% if audio_resources %}
+        <div class="card-grid card-grid--two">
+            {% for resource in audio_resources %}
+            <article class="feature-card">
+                <span class="badge">{{ resource.language.name }}</span>
+                <h3>{{ resource.title }}</h3>
+                <p>{{ resource.article.title }}</p>
+                <audio class="audio-player" controls preload="none">
+                    <source src="{{ resource.audio_url }}">
+                    Your browser does not support audio playback.
+                </audio>
+                {% if resource.transcript %}
+                <details>
+                    <summary>Read transcript</summary>
+                    <div class="prose">{{ resource.transcript|linebreaks }}</div>
+                </details>
+                {% endif %}
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <h2>No approved audio is available yet.</h2>
+            <p>Demonstration audio records without a working media file are intentionally withheld. Approved audio will be added through the content admin.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

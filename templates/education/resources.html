@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Resources | MAAM{% endblock %}
+{% block meta_description %}Find mental health education guides, reports and resources from WHO, UNICEF and Zimbabwean organisations, with clear source information.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <p class="eyebrow">Resource library</p>
+        <h1>Useful material to learn and share.</h1>
+        <p>Explore education and practical guides from the World Health Organization, UNICEF and Zimbabwean mental-health organisations. Each item links to its original publisher.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <form class="filter-form" method="get">
+            <div class="field-group">
+                <label for="category">Filter by resource type</label>
+                <select id="category" name="category">
+                    <option value="">All resources</option>
+                    {% for value, label in categories %}
+                    <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="button" type="submit">Filter resources</button>
+        </form>
+
+        {% if resources %}
+        <div class="card-grid">
+            {% for resource in resources %}
+            <article class="resource-card">
+                {% if resource.has_cover_image %}
+                <figure class="resource-card__media">
+                    {% if resource.cover_image_flag %}
+                    <span class="resource-card__flag">
+                        <img src="{% static resource.cover_image_flag %}" alt="" width="30" height="15">
+                        <span><span class="visually-hidden">Photo taken in </span>{{ resource.cover_image_country.name }}</span>
+                    </span>
+                    {% endif %}
+                    {% if resource.cover_image %}
+                    <img class="resource-card__photo resource-card__photo--{{ resource.cover_image_focus }}" src="{{ resource.cover_image.url }}" alt="{{ resource.cover_image_alt }}" loading="lazy">
+                    {% elif resource.cover_image_static %}
+                    <img class="resource-card__photo resource-card__photo--{{ resource.cover_image_focus }}" src="{% static resource.cover_image_static %}" alt="{{ resource.cover_image_alt }}" loading="lazy">
+                    {% else %}
+                    <img class="resource-card__photo resource-card__photo--{{ resource.cover_image_focus }}" src="{{ resource.cover_image_url }}" alt="{{ resource.cover_image_alt }}" loading="lazy" referrerpolicy="no-referrer">
+                    {% endif %}
+                    <figcaption class="resource-card__credit">
+                        {{ resource.cover_image_credit }}{% if resource.cover_image_licence_name %} ·
+                        {% if resource.cover_image_licence_url %}<a href="{{ resource.cover_image_licence_url }}" target="_blank" rel="license noopener noreferrer">{{ resource.cover_image_licence_name }}</a>{% else %}{{ resource.cover_image_licence_name }}{% endif %}{% endif %}{% if resource.cover_image_source_name %} ·
+                        {% if resource.cover_image_source_url %}<a href="{{ resource.cover_image_source_url }}" target="_blank" rel="noopener noreferrer">{{ resource.cover_image_source_name }}</a>{% else %}{{ resource.cover_image_source_name }}{% endif %}{% endif %}
+                    </figcaption>
+                </figure>
+                {% endif %}
+                <div class="resource-card__body">
+                    <span class="badge">{{ resource.get_category_display }}</span>
+                    {% if resource.is_demo %}<span class="badge badge--demo">Demonstration</span>{% endif %}
+                    <h3>{{ resource.title }}</h3>
+                    <p>{{ resource.summary }}</p>
+                    {% if resource.source_url %}
+                    <p>Source: <a href="{{ resource.source_url }}" target="_blank" rel="noopener noreferrer">{{ resource.source_name|default:resource.source_url }}</a></p>
+                    {% endif %}
+                    {% if resource.file %}
+                    <a class="button" href="{{ resource.file.url }}" download>Download resource</a>
+                    {% elif resource.external_url and resource.external_url != resource.source_url %}
+                    <a class="button" href="{{ resource.external_url }}" target="_blank" rel="noopener noreferrer">Open resource</a>
+                    {% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <h2>No published resources yet</h2>
+            <p>This library is ready for approved guides, posters and infographics. No sample file is presented as an official resource.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

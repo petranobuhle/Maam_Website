@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ organisation.name }} | MAAM support directory{% endblock %}
+{% block meta_description %}Directory details and official contact sources for {{ organisation.name }}.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <p class="eyebrow">Directory listing</p>
+        <span class="badge">Official website reviewed</span>
+        <h1>{{ organisation.name }}</h1>
+        {% if organisation.address %}<p>{{ organisation.address }}</p>{% elif organisation.city %}<p>{{ organisation.city }}</p>{% endif %}
+    </div>
+</section>
+<section class="section">
+    <div class="container split-layout">
+        <div class="prose">
+            {% if organisation.description %}<p>{{ organisation.description|linebreaks }}</p>{% endif %}
+            {% if organisation.website %}<p><strong>Official website:</strong> <a href="{{ organisation.website }}" target="_blank" rel="noopener noreferrer">{{ organisation.website }}</a></p>{% endif %}
+            <p><strong>Directory review:</strong> MAAM Project Lead</p>
+            {% if organisation.verification_source %}
+            <p><strong>Organisation source:</strong> <a href="{{ organisation.verification_source }}" target="_blank" rel="noopener noreferrer">Official organisation information</a></p>
+            {% endif %}
+            {% if organisation.last_verified_at %}<p><strong>Last checked:</strong> {{ organisation.last_verified_at|date:"j F Y" }}</p>{% endif %}
+            <p>MAAM reviewed the linked official information on the date shown; this is not direct confirmation of current service availability. The listing does not imply that MAAM and this organisation have partnered or that MAAM endorses its services. Confirm current details with the organisation.</p>
+        </div>
+        <aside class="content-card">
+            <h2>Organisation contact</h2>
+            {% if organisation.phone_numbers %}
+            <p><strong>Phone:</strong>
+                {% for number, tel_uri in organisation.phone_number_links %}
+                <a href="tel:{{ tel_uri }}">{{ number }}</a>{% if not forloop.last %}<span aria-hidden="true"> · </span>{% endif %}
+                {% endfor %}
+            </p>
+            {% endif %}
+            {% if organisation.email %}<p><strong>Email:</strong> <a href="mailto:{{ organisation.email }}">{{ organisation.email }}</a></p>{% endif %}
+            {% if organisation.address %}<p><strong>Address:</strong> {{ organisation.address }}</p>{% endif %}
+            {% if organisation.website %}<p><a href="{{ organisation.website }}" target="_blank" rel="noopener noreferrer">Visit official website</a></p>{% endif %}
+            {% if not organisation.phone_numbers and not organisation.email and not organisation.website %}<p>No contact details are available in this listing.</p>{% endif %}
+        </aside>
+    </div>
+</section>
+<section class="section section--cream">
+    <div class="container">
+        <div class="section-heading">
+            <div><p class="eyebrow">Services and activities</p><h2>What the organisation describes</h2></div>
+        </div>
+        {% if services %}
+        <div class="card-grid">
+            {% for service in services %}
+            <article class="feature-card">
+                <span class="badge">{{ service.get_delivery_mode_display }}</span>
+                <h3>{{ service.service_type }}</h3>
+                {% if service.description %}<p>{{ service.description }}</p>{% endif %}
+                {% if service.intended_for %}<p><strong>Who it is for:</strong> {{ service.intended_for }}</p>{% endif %}
+                {% if service.languages %}<p><strong>Languages:</strong> {{ service.languages }}</p>{% endif %}
+                {% if service.operating_hours %}<p><strong>Published hours:</strong> {{ service.operating_hours }}</p>{% endif %}
+                {% if service.city %}<p><strong>Location:</strong> {{ service.city }}</p>{% endif %}
+                {% if service.phone %}<p><strong>Phone:</strong> <a href="tel:{{ service.phone|cut:' ' }}">{{ service.phone }}</a></p>{% endif %}
+                {% if service.email %}<p><strong>Email:</strong> <a href="mailto:{{ service.email }}">{{ service.email }}</a></p>{% endif %}
+                {% if service.whatsapp_url %}<p><a class="button button--outline" href="{{ service.whatsapp_url }}" target="_blank" rel="noopener noreferrer">Contact via WhatsApp</a></p>{% endif %}
+                {% if service.website %}<p><a href="{{ service.website }}" target="_blank" rel="noopener noreferrer">Official service information</a></p>{% endif %}
+                {% if service.verification_source %}<p><strong>Source:</strong> <a href="{{ service.verification_source }}" target="_blank" rel="noopener noreferrer">Official service information</a></p>{% endif %}
+                {% if service.last_verified_at %}<p class="article-meta">Checked {{ service.last_verified_at|date:"j F Y" }} by MAAM Project Lead</p>{% endif %}
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state"><p>No verified services or activities are listed for this organisation.</p></div>
+        {% endif %}
+        <p style="margin-top: 1.5rem;"><a class="button button--outline" href="{% url 'support' %}">Back to support directory</a></p>
+    </div>
+</section>
+{% endblock %}

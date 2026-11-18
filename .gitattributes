@@ -1,0 +1,2 @@
+# Keep Linux line endings for scripts that run on Render (Windows line endings break bash).
+*.sh text eol=lf

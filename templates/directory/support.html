@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Find support | MAAM{% endblock %}
+{% block meta_description %}Find Zimbabwe mental health support, education, advocacy and rehabilitation listings checked against official sources.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <p class="eyebrow">Zimbabwe support directory</p>
+        <h1>Find a support pathway that fits.</h1>
+        <p>These independent organisations describe different kinds of mental health support. Check each organisation's official information to confirm current availability and suitability.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div class="notice notice--important">
+            MAAM is not a counselling, treatment or emergency service. Listings are not endorsements or evidence of a partnership with MAAM. The linked official websites have been reviewed by the MAAM Project Lead; this is not direct confirmation of current service availability.
+        </div>
+
+        <form class="filter-form" method="get" role="search">
+            <div class="field-group">
+                <label for="support-search">Search organisations and services</label>
+                <input id="support-search" type="search" name="q" value="{{ query }}" placeholder="Organisation, service or location">
+            </div>
+            <button class="button" type="submit">Search</button>
+        </form>
+
+        {% if organisations %}
+        <div class="directory-grid">
+            {% for organisation in organisations %}
+            <article class="feature-card directory-card">
+                <div class="directory-card__header">
+                    <h2>{{ organisation.name }}</h2>
+                    <span class="badge">Official website reviewed</span>
+                </div>
+                {% if organisation.description %}<p class="directory-card__description">{{ organisation.description }}</p>{% endif %}
+
+                {% if organisation.address or organisation.city %}
+                <p class="directory-card__location">
+                    <strong>{% if organisation.address %}Address{% else %}Location{% endif %}:</strong>
+                    {% if organisation.address %}{{ organisation.address }}{% else %}{{ organisation.city }}{% endif %}
+                </p>
+                {% endif %}
+
+                <section class="directory-card__services" aria-label="Services and activities">
+                    <h3>Services and activities</h3>
+                    <ul class="directory-service-list">
+                        {% for service in organisation.verified_services %}
+                        <li class="directory-service">
+                            <h4>{{ service.name }}</h4>
+                            <p class="directory-service__type"><strong>{{ service.service_type }}</strong> · {{ service.get_delivery_mode_display }}</p>
+                            {% if service.description %}<p>{{ service.description }}</p>{% endif %}
+                            {% if service.intended_for %}<p><strong>Who it is for:</strong> {{ service.intended_for }}</p>{% endif %}
+                            {% if service.languages %}<p><strong>Languages:</strong> {{ service.languages }}</p>{% endif %}
+                            {% if service.operating_hours %}<p><strong>Published availability:</strong> {{ service.operating_hours }}</p>{% endif %}
+                            {% if service.city %}<p><strong>Service location:</strong> {{ service.city }}</p>{% endif %}
+                            {% if service.phone %}<p><strong>Phone:</strong> <a href="tel:{{ service.phone|cut:' '|cut:'-'|cut:'('|cut:')' }}">{{ service.phone }}</a></p>{% endif %}
+                            {% if service.email %}<p><strong>Email:</strong> <a href="mailto:{{ service.email }}">{{ service.email }}</a></p>{% endif %}
+                            {% if service.whatsapp_url %}<p><a class="text-link" href="{{ service.whatsapp_url }}" target="_blank" rel="noopener noreferrer">Contact via WhatsApp <span aria-hidden="true">↗</span></a></p>{% endif %}
+                            {% if service.website and service.website != organisation.website %}<p><a class="text-link" href="{{ service.website }}" target="_blank" rel="noopener noreferrer">Official service information <span aria-hidden="true">↗</span></a></p>{% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+
+                <div class="directory-card__contact">
+                    <h3>Contact and sources</h3>
+                    {% if organisation.phone_numbers %}
+                    <p><strong>Phone:</strong>
+                        {% for number, tel_uri in organisation.phone_number_links %}
+                        <a href="tel:{{ tel_uri }}">{{ number }}</a>{% if not forloop.last %}<span aria-hidden="true"> · </span>{% endif %}
+                        {% endfor %}
+                    </p>
+                    {% endif %}
+                    {% if organisation.email %}<p><strong>Email:</strong> <a href="mailto:{{ organisation.email }}">{{ organisation.email }}</a></p>{% endif %}
+                    {% if organisation.website %}<p><a class="text-link" href="{{ organisation.website }}" target="_blank" rel="noopener noreferrer">Official website <span aria-hidden="true">↗</span></a></p>{% endif %}
+                    <p class="article-meta">Official source reviewed {{ organisation.last_verified_at|date:"j F Y" }} by MAAM Project Lead</p>
+                    <a class="text-link" href="{% url 'support-detail' organisation.id %}">Listing details and sources <span aria-hidden="true">→</span></a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <h2>{% if query %}No verified listings match that search.{% else %}No verified listings are available.{% endif %}</h2>
+            <p>Unverified and demonstration records are withheld from public results. Check official organisation websites for the latest information.</p>
+        </div>
+        {% endif %}
+
+        <div class="notice notice--important">
+            These organisations are not all emergency services. If there is immediate danger, contact appropriate emergency support available where you are. MAAM does not monitor this directory or website as an emergency response channel.
+        </div>
+    </div>
+</section>
+{% endblock %}

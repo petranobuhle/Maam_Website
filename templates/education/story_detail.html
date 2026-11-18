@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ story.title }} | Beyond the Silence | MAAM{% endblock %}
+{% block meta_description %}{{ story.excerpt }}{% endblock %}
+
+{% block content %}
+<article class="story-article" aria-labelledby="story-title">
+    <header class="story-article__header">
+        <div class="container narrow">
+            <p><a class="story-article__back" href="{% url 'stories' %}"><span aria-hidden="true">←</span> All stories</a></p>
+            <p class="story-meta">
+                <span class="badge badge--on-dark">{{ story.country.name }}</span>
+                {% if story.story_type == "republished" %}<span class="badge badge--on-dark">Republished with credit · {{ story.licence_name }}</span>{% else %}<span class="badge badge--on-dark">Shared with consent</span>{% endif %}
+            </p>
+            <p class="eyebrow story-article__eyebrow">Beyond the Silence: Real Voices. Real Experiences.</p>
+            <h1 id="story-title">{{ story.title }}</h1>
+            <p class="story-article__byline">
+                {% if story.story_type == "community" and story.is_anonymous %}Shared anonymously{% else %}By {{ story.author_display }}{% endif %}
+                {% if story.author_affiliation %}<span class="story-article__affiliation">{{ story.author_affiliation }}</span>{% endif %}
+            </p>
+            {% if story.source_name %}
+            <p class="story-article__source">First published in <a href="{{ story.source_url }}" target="_blank" rel="noopener noreferrer">{{ story.source_name }}<span class="visually-hidden"> (opens in a new tab)</span></a>{% if story.published_on %} on {{ story.published_on|date:"j F Y" }}{% endif %}.</p>
+            {% endif %}
+            {% if story.pull_quote %}
+            <figure class="story-article__quote">
+                <blockquote><p>“{{ story.pull_quote }}”</p></blockquote>
+                <figcaption>— {{ story.author_display }}</figcaption>
+            </figure>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="section story-article__main">
+        <div class="container narrow">
+            <p class="story-article__summary"><span class="story-article__label">Summary by MAAM</span> {{ story.excerpt }}</p>
+
+            {% if story.content_note %}
+            <aside class="notice notice--important story-article__content-note" aria-label="Content note">
+                <strong>Content note:</strong> {{ story.content_note }}
+                You can stop reading at any time. The <a href="{% url 'support' %}">MAAM Support Directory</a> lists organisations you can contact.
+            </aside>
+            {% endif %}
+
+            {% if story.image %}
+            <figure class="story-article__figure">
+                <img src="{{ story.image.url }}" alt="{{ story.image_alt }}">
+                <figcaption>{{ story.image_credit }}</figcaption>
+            </figure>
+            {% endif %}
+
+            {% if story.video_embed_url %}
+            <figure class="story-article__figure">
+                <div class="media-card__embed">
+                    <iframe src="{{ story.video_embed_url }}" title="{{ story.title }} — video player" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <figcaption>{{ story.video_credit }}</figcaption>
+            </figure>
+            {% endif %}
+
+            <div class="prose story-prose">
+                {{ story.body|linebreaks }}
+            </div>
+
+            {% if story.author_note %}
+            <section class="story-article__author" aria-labelledby="about-author">
+                <h2 id="about-author">About the author</h2>
+                <p>{{ story.author_note }}</p>
+                {% if story.story_type == "republished" %}<p class="story-article__small">This biography was published with the original article.</p>{% endif %}
+            </section>
+            {% endif %}
+
+            <section class="story-credit" aria-labelledby="credit-heading">
+                <h2 id="credit-heading">Credit and licence</h2>
+                {% if story.story_type == "republished" %}
+                <p>{{ story.attribution_text }}</p>
+                <ul>
+                    <li><a href="{{ story.source_url }}" target="_blank" rel="noopener noreferrer">Read the original publication<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+                    {% if story.doi_url %}<li>DOI: <a href="{{ story.doi_url }}" target="_blank" rel="noopener noreferrer">{{ story.doi_url }}</a></li>{% endif %}
+                    <li>Licence: <a href="{{ story.licence_url }}" target="_blank" rel="license noopener noreferrer">{{ story.licence_name }}</a></li>
+                    {% if story.copyright_notice %}<li>{{ story.copyright_notice }}</li>{% endif %}
+                </ul>
+                {% if story.changes_note %}<p><strong>Changes:</strong> {{ story.changes_note }}</p>{% endif %}
+                <p class="story-article__small">MAAM did not interview the author or commission this story. Republishing it here does not mean that the author or publisher endorses MAAM.</p>
+                {% else %}
+                <p>This story was shared with MAAM with the storyteller's informed consent and reviewed before publication.</p>
+                {% endif %}
+            </section>
+
+            <aside class="story-support callout" aria-label="Support">
+                <p>If reading this has brought up difficult feelings, consider talking with someone you trust. MAAM shares education and is not a counselling or emergency service.</p>
+                <a class="button button--outline" href="{% url 'support' %}">Find support organisations</a>
+            </aside>
+        </div>
+    </div>
+</article>
+
+{% if more_stories %}
+<section class="section section--cream" aria-labelledby="more-stories">
+    <div class="container">
+        <div class="section-heading">
+            <div><p class="eyebrow">Keep reading</p><h2 id="more-stories">More stories</h2></div>
+            <a class="text-link" href="{% url 'stories' %}">All stories <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="card-grid card-grid--two">
+            {% for story in more_stories %}
+            {% include "education/_story_card.html" %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

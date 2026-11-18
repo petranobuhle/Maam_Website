@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block html_lang %}{{ language_code }}{% endblock %}
+{% block content_lang %}{{ language_code }}{% endblock %}
+{% block title %}{{ ui.page_title }} | MAAM{% endblock %}
+{% block meta_description %}{{ ui.meta_description }}{% endblock %}
+
+{% block content %}
+<section class="page-hero learn-hero">
+    <div class="container learn-hero__grid">
+        <div>
+            {% include 'education/_language_switcher.html' %}
+            {% if language_code == "sn" and has_draft_translations %}<p class="education-translation-notice">{{ ui.translation_notice }}</p>{% endif %}
+            <p class="eyebrow">{{ ui.hero_eyebrow }}</p>
+            <h1>{{ ui.hero_title }}</h1>
+            <p>{{ ui.hero_intro }}</p>
+            <div class="button-row">
+                <a class="button" href="#learning-topics">{{ ui.explore_topics }}</a>
+                <a class="button button--outline" href="{% url 'support' %}">{{ ui.find_support }}</a>
+            </div>
+        </div>
+        <figure class="learn-hero__figure">
+            <img
+                class="learn-hero__image"
+                src="{% static 'images/mental-wellbeing-conversation.svg' %}"
+                alt="{{ ui.image_alt }}"
+                width="480"
+                height="360">
+            <figcaption class="learn-hero__caption">{{ ui.image_caption }}</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="section" id="learning-topics" aria-labelledby="learning-topics-title">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">{{ ui.topic_eyebrow }}</p>
+                <h2 id="learning-topics-title">{{ ui.topic_heading }}</h2>
+            </div>
+        </div>
+        {% if topics %}
+        <nav class="learning-topic-grid" aria-label="{{ ui.topic_nav_label }}">
+            {% for topic in topics %}
+            {% for topic_article in topic.published_articles %}
+            {% if forloop.first %}
+            <a class="topic-card topic-card--link" href="{% url 'article-detail' topic_article.slug %}?lang={{ language_code }}">
+                <span class="topic-card__number" aria-hidden="true">0{{ forloop.parentloop.counter }}</span>
+                <h3>{% if language_code == "sn" %}{{ topic.display_name }}{% else %}{{ topic.name }}{% endif %}</h3>
+                <p>{% if language_code == "sn" %}{{ topic.display_description|default:"" }}{% else %}{{ topic.description|default:"A starting point for learning and thoughtful conversation." }}{% endif %}</p>
+                <span class="topic-card__action">{{ ui.explore_topic }} <span aria-hidden="true">→</span></span>
+            </a>
+            {% endif %}
+            {% empty %}
+            <div class="topic-card">
+                <h3>{% if language_code == "sn" %}{{ topic.display_name }}{% else %}{{ topic.name }}{% endif %}</h3>
+                <p>{% if language_code == "sn" %}{{ topic.display_description|default:"" }}{% else %}{{ topic.description|default:"A starting point for learning and thoughtful conversation." }}{% endif %}</p>
+                <span class="topic-card__action">{{ ui.new_topic }}</span>
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </nav>
+        {% else %}
+        <div class="empty-state"><p>{{ ui.empty_topics }}</p></div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="section section--cream" aria-labelledby="learning-articles-title">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">{{ ui.articles_eyebrow }}</p>
+                <h2 id="learning-articles-title">{{ ui.articles_heading }}</h2>
+            </div>
+        </div>
+        {% if articles %}
+        <div class="learning-article-grid">
+            {% for article in articles %}
+            <article class="feature-card learning-article-card" id="article-{{ article.slug }}">
+                {% if article.topics.all %}
+                <div class="learning-topic-tags" aria-label="{{ ui.topic_nav_label }}">
+                    {% for topic in article.topics.all %}
+                    <span class="learning-topic-tag">{% if language_code == "sn" %}{{ topic.shona_name|default:topic.name }}{% else %}{{ topic.name }}{% endif %}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% if article.is_demo %}<span class="badge badge--demo">{{ ui.demo_badge }}</span>{% endif %}
+                <h3>{% if language_code == "sn" and article.display_translation %}{{ article.display_translation.title }}{% else %}{{ article.title }}{% endif %}</h3>
+                <p>{% if language_code == "sn" and article.display_translation %}{{ article.display_translation.summary|default:article.summary|truncatechars:220 }}{% else %}{{ article.summary|default:article.content|truncatechars:220 }}{% endif %}</p>
+                {% if article.source_url %}
+                <p class="learning-source">{{ ui.source_label }} <a href="{{ article.source_url }}" lang="en" target="_blank" rel="noopener noreferrer">{{ article.source_name|default:article.source_url }}</a></p>
+                {% endif %}
+                <a class="text-link" href="{% url 'article-detail' article.slug %}?lang={{ language_code }}">{{ ui.read_article }} <span aria-hidden="true">→</span></a>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <h3>{{ ui.empty_articles_title }}</h3>
+            <p>{{ ui.empty_articles_body }}</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="section section--mint">
+    <div class="container learning-note">
+        <div>
+            <p class="eyebrow">{{ ui.reminder_eyebrow }}</p>
+            <h2>{{ ui.reminder_title }}</h2>
+            <p>{{ ui.reminder_body }}</p>
+        </div>
+        <a class="button" href="{% url 'support' %}">{{ ui.visit_directory }}</a>
+    </div>
+</section>
+{% endblock %}

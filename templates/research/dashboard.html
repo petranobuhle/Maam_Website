@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Research dashboard | MAAM{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container"><p class="eyebrow">Restricted staff area</p><h1>Research dashboard</h1></div>
+</section>
+<section class="section">
+    <div class="container">
+        {% if survey %}
+            {% if summary.suppressed %}
+            <div class="empty-state"><h2>Results are suppressed.</h2><p>Fewer than five responses are available. Written answers are excluded from this dashboard.</p></div>
+            {% else %}
+            <div class="content-card">
+                <h2>{{ survey.title }}</h2>
+                <p>Aggregate responses: {{ summary.total_responses }}</p>
+                {% for item in summary.question_summaries %}
+                <h3>{{ item.question }}</h3>
+                {% if item.answers %}<ul>{% for answer in item.answers %}<li>{{ answer.label }}: {{ answer.count }}</li>{% endfor %}</ul>{% else %}<p>Counts below five suppressed.</p>{% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% else %}
+        <div class="empty-state"><h2>No active survey.</h2></div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

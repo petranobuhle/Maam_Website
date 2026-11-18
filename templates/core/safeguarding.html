@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Safeguarding | MAAM{% endblock %}
+{% block meta_description %}MAAM's commitment to dignity, respect, consent and safe conversations, and where to turn for appropriate support.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container narrow">
+        <p class="eyebrow">Safeguarding</p>
+        <h1>Every conversation deserves care.</h1>
+        <p>MAAM aims to make mental health awareness more respectful, inclusive and attentive to people's choices.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container narrow prose">
+        <div class="notice notice--important">
+            MAAM is an awareness and advocacy initiative. We do not provide therapy, diagnosis, medical treatment or emergency response.
+        </div>
+
+        <h2>Our approach</h2>
+        <p>We are committed to treating people with dignity and respect, welcoming different backgrounds and perspectives, and listening without judgement. No one should be pressured, shamed or treated as a problem because they are experiencing distress or choosing not to speak about it.</p>
+
+        <h2>Your experience is yours to share</h2>
+        <p>You are not required to disclose personal mental health experiences to read, learn about or participate in MAAM activities. Share only what you freely choose to share. Do not send sensitive health details or another person's identifying information through website forms or email.</p>
+        <p>Personal stories should be shared or published only with the contributor's informed agreement for the intended use and version, and with care for privacy. People should be able to ask questions and decline without pressure. The website currently has no public story-submission form and no stories are published; the story-consent and review process still needs to be established before stories are accepted or published.</p>
+
+        <h2>Finding support</h2>
+        <p>MAAM provides general educational information, not individual assessment or care. If you are distressed, consider reaching out to a qualified health professional or a trusted person or support service in your local community. The support directory only displays entries after verification; it may not yet have a verified listing for your location.</p>
+        <p>If there is immediate danger, contact appropriate emergency support available where you are. MAAM cannot respond to emergencies.</p>
+
+        <h2>Website forms are not emergency channels</h2>
+        <p>The contact, volunteer, partnership and survey routes are not monitored for urgent requests or safeguarding emergencies. Do not use them to report immediate danger or seek crisis support. Survey participation is voluntary; read the <a href="{% url 'privacy' %}">Privacy notice</a> before submitting information.</p>
+
+        <h2>General safeguarding questions</h2>
+        <p>For a general question about safeguarding or how MAAM handles stories and participation, email <a href="mailto:mahwadupetra@gmail.com?subject=MAAM%20safeguarding%20question">mahwadupetra@gmail.com</a> or use the <a href="{% url 'contact' %}">Contact MAAM</a> page. This email is not an emergency service. A named safeguarding lead and formal incident or escalation procedure have not yet been confirmed, and must be decided before public launch.</p>
+
+        <div class="button-row">
+            <a class="button button--outline" href="{% url 'contact' %}">Contact MAAM</a>
+            <a class="button button--outline" href="{% url 'get-involved' %}">Participation information</a>
+            <a class="text-link" href="{% url 'privacy' %}">Read the Privacy notice</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

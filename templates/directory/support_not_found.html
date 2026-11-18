@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Organisation not found | MAAM{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container narrow">
+        <p class="eyebrow">Support</p>
+        <h1>Organisation not found</h1>
+    </div>
+</section>
+
+<section class="section container narrow">
+    <div class="content-card">
+        <p>The support organisation you requested could not be found.</p>
+        <a class="button button--outline" href="{% url 'support' %}">View support directory</a>
+    </div>
+</section>
+{% endblock %}

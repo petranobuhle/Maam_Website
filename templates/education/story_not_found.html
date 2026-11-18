@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Story not found | MAAM{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container narrow">
+        <p class="eyebrow">Stories</p>
+        <h1>Story not found</h1>
+    </div>
+</section>
+
+<section class="section container narrow">
+    <div class="content-card">
+        <p>This story is not available on MAAM. It may have been removed, or it may only be available on its original publisher's website.</p>
+        <a class="button" href="{% url 'stories' %}">View all stories</a>
+    </div>
+</section>
+{% endblock %}

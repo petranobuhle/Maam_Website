@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Beyond the Silence: Real Voices. Real Experiences. | MAAM{% endblock %}
+{% block meta_description %}First-person accounts of living with mental health conditions, starting with Zimbabwe and including selected voices from across Africa, with full credit to authors and original publishers.{% endblock %}
+
+{% block content %}
+<section class="stories-hero" aria-labelledby="stories-title">
+    <div class="container stories-hero__inner">
+        <p class="eyebrow stories-hero__eyebrow">Stories</p>
+        <h1 id="stories-title" class="stories-hero__title">Beyond the Silence: <span>Real Voices. Real Experiences.</span></h1>
+        <p class="stories-hero__lead">First-person accounts of living with mental health conditions, written by the people who lived them. We start with Zimbabwe, then share selected voices from across Africa.</p>
+        <p class="stories-hero__note">MAAM did not interview these writers. Each story is either republished under an open licence with full credit to its author and original publisher, or linked to the original publisher's website.</p>
+        {% if country_labels %}
+        <ul class="stories-country-list" aria-label="Countries represented">
+            {% for name in country_labels %}<li>{{ name }}</li>{% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</section>
+
+{% if stories %}
+<section class="section" aria-labelledby="zimbabwe-heading">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Zimbabwe first</p>
+                <h2 id="zimbabwe-heading">Voices from Zimbabwe</h2>
+            </div>
+        </div>
+        {% if zimbabwe_stories %}
+        <div class="card-grid card-grid--two">
+            {% for story in zimbabwe_stories %}
+            {% include "education/_story_card.html" %}
+            {% endfor %}
+        </div>
+        <p class="stories-permission-note">Stories marked “On the original website” are not republished here because MAAM does not yet have an open licence or written permission to do so. Their text and photographs remain on the original publisher's website.</p>
+        {% else %}
+        <div class="empty-state">
+            <h3>No Zimbabwean stories are listed yet.</h3>
+            <p>We will add Zimbabwean voices only from published sources with clear credit, or with the storyteller's informed consent.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% if africa_features or africa_links %}
+<section class="section section--cream" aria-labelledby="africa-heading">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Across Africa</p>
+                <h2 id="africa-heading">Selected stories from the continent</h2>
+            </div>
+        </div>
+        <div class="story-feature-list">
+            {% for story in africa_features %}
+            <article class="story-feature{% if forloop.counter|divisibleby:2 %} story-feature--reverse{% endif %}" aria-labelledby="story-{{ story.slug }}-title">
+                {% if story.image %}
+                <figure class="story-feature__media">
+                    <img src="{{ story.image.url }}" alt="{{ story.image_alt }}" loading="lazy">
+                    <figcaption>{{ story.image_credit }}</figcaption>
+                </figure>
+                {% else %}
+                <div class="story-feature__titlecard" aria-hidden="true">
+                    <span class="story-feature__country">{{ story.country.name }}</span>
+                    {% if story.pull_quote %}<span class="story-feature__quote">“{{ story.pull_quote }}”</span>{% endif %}
+                    <span class="story-feature__author">{{ story.author_display }}</span>
+                </div>
+                {% endif %}
+                <div class="story-feature__body">
+                    <p class="story-meta">
+                        <span class="badge">{{ story.country.name }}</span>
+                        {% if story.licence_name %}<span class="badge badge--licence">Republished with credit · {{ story.licence_name }}</span>{% endif %}
+                    </p>
+                    <h3 id="story-{{ story.slug }}-title">{{ story.title }}</h3>
+                    <p class="story-byline">By {{ story.author_display }}{% if story.source_name %} · First published in {{ story.source_name }}{% if story.published_on %}, {{ story.published_on|date:"F Y" }}{% endif %}{% endif %}</p>
+                    <p>{{ story.excerpt }}</p>
+                    {% if story.pull_quote %}<p class="visually-hidden">Quote from the story: “{{ story.pull_quote }}”</p>{% endif %}
+                    {% if story.content_note %}<p class="story-content-note"><strong>Content note:</strong> {{ story.content_note }}</p>{% endif %}
+                    <a class="button" href="{% url 'story-detail' story.slug %}">Read the full story<span class="visually-hidden">: {{ story.title }}</span></a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% if africa_links %}
+        <div class="card-grid card-grid--two stories-link-grid">
+            {% for story in africa_links %}
+            {% include "education/_story_card.html" %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+{% else %}
+<section class="section">
+    <div class="container">
+        <div class="empty-state">
+            <h2>No stories are published here yet.</h2>
+            <p>This page will not invent personal experiences or display demonstration stories.</p>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="section section--mint" aria-labelledby="standards-heading">
+    <div class="container stories-standards">
+        <div>
+            <p class="eyebrow">How we share stories</p>
+            <h2 id="standards-heading">Every voice is credited. Nothing is invented.</h2>
+        </div>
+        <div>
+            <ul class="stories-standards__list">
+                <li>We republish a story only when it has an open licence or written permission, and we credit the author and original publisher.</li>
+                <li>Stories without that permission are linked to the original website. We do not copy their text or photographs.</li>
+                <li>We do not create stories, people, photographs, quotes or interviews.</li>
+                <li>Content notes tell you about difficult topics before you start reading.</li>
+            </ul>
+            <div class="notice notice--important">
+                Stories are not submitted or published automatically. There is no public story-submission form. A personal story shared with MAAM may appear here only after informed consent, privacy and safety review, and manual approval for publication. Please do not send private health details through this website.
+            </div>
+            <p>If a story brings up difficult feelings, consider talking with someone you trust. You can also find organisations in the <a href="{% url 'support' %}">MAAM Support Directory</a>.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,6 @@
+<nav class="education-language-switcher" aria-label="{{ ui.language_switcher_label }}">
+    <span class="education-language-switcher__label">{{ ui.language_label }}</span>
+    <a href="?lang=en" lang="en" hreflang="en"{% if language_code == "en" %} aria-current="page"{% endif %}>English</a>
+    <span aria-hidden="true">|</span>
+    <a href="?lang=sn" lang="sn" hreflang="sn"{% if language_code == "sn" %} aria-current="page"{% endif %}>Shona</a>
+</nav>
